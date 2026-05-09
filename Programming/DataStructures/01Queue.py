@@ -1,5 +1,5 @@
 """
-Queue - FIFO (First In, First Out) data structure.
+Queue - FIFO (First In, First Out) val structure.
 Backed by a singly linked list with head (front) and tail (back) pointers.
 
 | Operation | Time Complexity |
@@ -14,8 +14,8 @@ Backed by a singly linked list with head (front) and tail (back) pointers.
 class QueueImpl:
 
     class Node:
-        def __init__(self, data=None):
-            self.data = data
+        def __init__(self, val=None):
+            self.val = val
             self.next = None
 
     def __init__(self):
@@ -26,8 +26,8 @@ class QueueImpl:
     def isEmpty(self):
         return self._size == 0
 
-    def enqueue(self, data):
-        newNode = self.Node(data)
+    def enqueue(self, val):
+        newNode = self.Node(val)
         if self.isEmpty():
             self.head = newNode
         else:
@@ -44,7 +44,7 @@ class QueueImpl:
         self._size  -= 1
         if self.isEmpty():
             self.tail = None
-        return toRemove.data
+        return toRemove.val
 
     def size(self):
         return self._size
@@ -52,12 +52,12 @@ class QueueImpl:
     def peek(self):
         if self.isEmpty():
             return None
-        return self.head.data
+        return self.head.val
     
     def __iter__(self):
         current = self.head
         while current:
-            yield current.data
+            yield current.val
             current = current.next
 
     def __str__(self):

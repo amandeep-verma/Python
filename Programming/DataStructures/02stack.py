@@ -1,5 +1,5 @@
 """
-Stack - LIFO (Last In, First Out) data structure.
+Stack - LIFO (Last In, First Out) val structure.
 Backed by a singly linked list; all operations act on the top (head) pointer.
 
 | Operation | Time Complexity |
@@ -14,8 +14,8 @@ Backed by a singly linked list; all operations act on the top (head) pointer.
 class StackImpl:
 
     class Node:
-        def __init__(self, data=None):
-            self.data = data
+        def __init__(self, val=None):
+            self.val = val
             self.next = None
 
     def __init__(self):
@@ -25,8 +25,8 @@ class StackImpl:
     def isEmpty(self):
         return self._size == 0
         
-    def push(self, data):
-        newNode = self.Node(data)
+    def push(self, val):
+        newNode = self.Node(val)
 
         newNode.next = self.top
         self.top = newNode
@@ -38,12 +38,12 @@ class StackImpl:
         toRemove = self.top
         self.top = self.top.next
         self._size -= 1
-        return toRemove.data
+        return toRemove.val
     
     def peek(self):
         if self.isEmpty():
             return None
-        return self.top.data
+        return self.top.val
     
     def size(self):
         return self._size
@@ -51,13 +51,13 @@ class StackImpl:
     def __iter__(self):
         current = self.top
         while current:
-            yield current.data
+            yield current.val
             current = current.next
 
     def __str__(self):
         if self.isEmpty():
             return "Stack: []"
-        return "Stack: [" + ", ".join(str(data) for data in self) + "]"
+        return "Stack: [" + ", ".join(str(val) for val in self) + "]"
     
 myStack = StackImpl()
 

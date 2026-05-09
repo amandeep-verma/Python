@@ -1,4 +1,7 @@
 """
+
+Binary Tree - each node has at most 2 children. Not necessarily ordered.
+
 Binary Search Tree (BST) - a tree where each node has at most 2 children,
 left child < parent < right child. Enables efficient search, insert, delete.
 
@@ -7,7 +10,7 @@ Tree Terminology:
 - Perfect Tree: all interior nodes have 2 children, all leaves at same level
 - Complete Tree: all levels filled except possibly last, filled left to right
 - Balanced Tree: height is O(log n) — e.g. AVL, Red-Black trees
-- Unbalanced:   degenerates to a linked list in worst case, height O(n)
+- Unbalanced:  degenerates to a linked list in worst case, height O(n)
 
 Height:
 - Empty tree  → -1
@@ -53,8 +56,8 @@ from collections import deque
 
 class TreeImpl:
     class Node:
-        def __init__(self, data=None):
-            self.data = data
+        def __init__(self, val=None):
+            self.val = val
             self.left = None
             self.right = None
 
@@ -62,17 +65,17 @@ class TreeImpl:
         self.root = None
 
     # Time: O(log n) avg, O(n) worst | Space: O(log n) avg, O(n) worst (call stack)
-    def insertHelper(self, data, current):
+    def insertHelper(self, val, current):
         if current is None:
-            return self.Node(data)
-        if data < current.data:
-            current.left = self.insertHelper(data, current.left)
-        elif data > current.data:
-            current.right = self.insertHelper(data, current.right)
+            return self.Node(val)
+        if val < current.val:
+            current.left = self.insertHelper(val, current.left)
+        elif val > current.val:
+            current.right = self.insertHelper(val, current.right)
         return current
 
-    def insert(self, data):
-        self.root = self.insertHelper(data, self.root)
+    def insert(self, val):
+        self.root = self.insertHelper(val, self.root)
 
     # Time: O(n) — must visit every node | Space: O(log n) avg, O(n) worst
     def heightHelper(self, current):
@@ -90,7 +93,7 @@ class TreeImpl:
         """node → left → right"""
         if current is None:
             return
-        myList.append(current.data)
+        myList.append(current.val)
         self.preOrderHelper(current.left, myList)
         self.preOrderHelper(current.right, myList)
 
@@ -104,7 +107,7 @@ class TreeImpl:
         if current is None:
             return
         self.inOrderHelper(current.left, myList)
-        myList.append(current.data)
+        myList.append(current.val)
         self.inOrderHelper(current.right, myList)
 
     def inOrder(self):
@@ -118,7 +121,7 @@ class TreeImpl:
             return
         self.postOrderHelper(current.left, myList)
         self.postOrderHelper(current.right, myList)
-        myList.append(current.data)
+        myList.append(current.val)
 
     def postOrder(self):
         printableList = []
@@ -134,7 +137,7 @@ class TreeImpl:
         myStack = [self.root]
         while myStack:
             current = myStack.pop()
-            printableList.append(current.data)
+            printableList.append(current.val)
             if current.right:
                 myStack.append(current.right)   # right pushed first
             if current.left:
@@ -151,7 +154,7 @@ class TreeImpl:
                 myStack.append(curr)
                 curr = curr.left
             curr = myStack.pop()        # process node
-            printableList.append(curr.data)
+            printableList.append(curr.val)
             curr = curr.right           # then explore right subtree
         return printableList
 
@@ -170,8 +173,27 @@ class TreeImpl:
             if peek.right and last_visited != peek.right:
                 current = peek.right
             else:
-                printableList.append(peek.data)
+                printableList.append(peek.val)
                 last_visited = myStack.pop()
+        return printableList
+    
+    def postOrderIterativeAlternative(self):
+        printableList = []
+        stack = [self.root]
+        mySet = set()  # to track visited nodes
+        
+        while stack:
+            node = stack[-1]
+
+            if node.left and node.left not in mySet:
+                stack.append(node.left)
+            elif node.right and node.right not in mySet:
+                stack.append(node.right)
+            else:
+                node = stack.pop()
+                mySet.add(node)
+                printableList.append(node.val)
+        
         return printableList
 
     # --- BFS ---
@@ -182,7 +204,7 @@ class TreeImpl:
         queue = deque([self.root])
         while queue:
             current = queue.popleft()
-            printableList.append(current.data)
+            printableList.append(current.val)
             if current.left:
                 queue.append(current.left)
             if current.right:
@@ -202,5 +224,6 @@ print("Inorder traversal:", myTree.inOrder())
 print("Inorder traversal With Stack:", myTree.inOrderIterative())
 print("Postorder traversal:", myTree.postOrder())
 print("Postorder traversal With Stack:", myTree.postOrderIterative())
+print("Postorder traversal With Stack Alternative:", myTree.postOrderIterativeAlternative())
 print("Height of the tree:", myTree.height())
 print("Level order traversal:", myTree.levelOrder())

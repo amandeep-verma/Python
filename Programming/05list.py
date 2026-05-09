@@ -52,6 +52,7 @@ myList.remove(25)          # Removes first occurrence - O(n)
 last = myList.pop()        # Removes and returns last element - O(1)
 element = myList.pop(2)    # Removes and returns element at index 2 - O(n)
 del myList[1]              # Deletes element at index 1 - O(n)
+del myList[:3]             # Deletes the element from index 3 to end
 myList.clear()             # Removes all elements - O(n)
 
 # ============== LIST OPERATIONS ==============
@@ -132,22 +133,24 @@ shallow3 = list(original)
 import copy
 deep = copy.deepcopy(original)
 
-# ============== COMMON PATTERNS ==============
-# Using list as stack (LIFO)
-stack = []
-stack.append(1)            # push
-stack.append(2)
-top = stack.pop()          # pop
-peek = stack[-1] if stack else None  # peek
+# Removal of an element from list makes all elements post the removal element index move left. It is expensive operation - O(n)
+# When you have to remove n elements for list. It gets very expensive - O(n*n)
+# This can be done in tricky way - Mark all the elements to de deleted in a set. Now iterate over the list with two pointers - 1 writer and 1 reader. 
 
-# Using list as queue (FIFO) - NOT RECOMMENDED
-# Use collections.deque instead (covered in Collections module)
-queue = []
-queue.append(1)            # enqueue
-first = queue.pop(0)       # dequeue - O(n), inefficient!
+myList = [3,56,5,3,6,4,2,6,6,6,3,6,2,6,2,6,8]
+deleteIndexes = set(2,4,6,7,11)
+
+write = 0
+for read in range(len(myList)):
+    if read not in deleteIndexes:
+        myList[write] = myList[read]
+        write += 1
+
+del myList[write:]
+
 
 # ============== COMMON PITFALLS ==============
-# ❌ Don't modify list while iterating
+# ❌ Don't remove elements from list while iterating
 # for item in myList:
 #     if item == 0:
 #         myList.remove(item)  # Can skip elements or cause errors

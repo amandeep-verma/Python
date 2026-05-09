@@ -2,7 +2,7 @@ from Flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-@app.route("/addUsers", methods=['POSt'])
+@app.route("/addUsers", methods=['POST'])
 def add_users():
     try:
         reqBody  = request.get_json()
@@ -11,8 +11,7 @@ def add_users():
 
     except Exception as e:
         # Logs the error
-        return "400 Bad Request", 400
-    
+        return (jsonify({"error": str(e)}), 400)
 
 if __name__ == '__main__':
     app.run(port=5001, debug=True)

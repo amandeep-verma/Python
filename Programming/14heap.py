@@ -1,7 +1,36 @@
 # ============== HEAP BASICS ==============
 # Heap - Binary tree where parent <= children (min-heap) or parent >= children (max-heap)
 # Python's heapq implements MIN-HEAP by default
-# Time: Push O(log n), Pop O(log n), Peek O(1), Heapify O(n)
+# Time: 
+# Push O(log n), 
+# Pop O(log n), 
+# Peek O(1), 
+# Heapify O(n)
+
+# ============== HEAP PROPERTIES ==============
+# - Always balanced (complete binary tree)
+# - Parent index: (i-1)//2
+# - Left child: 2*i+1
+# - Right child: 2*i+2
+# - Root (min/max) always at index 0
+
+# ============== TIME COMPLEXITY ==============
+# Operation         Time
+# Push              O(log n)
+# Pop               O(log n)
+# Peek              O(1)
+# Heapify           O(n)
+# Search            O(n)
+# nlargest/nsmallest O(n log k)
+
+# ============== BEST PRACTICES ==============
+# ✅ Use heapq for priority queue
+# ✅ Negate values for max-heap
+# ✅ Use tuples for priority queue with values
+# ✅ Use heapify for bulk operations (faster than multiple pushes)
+# ✅ Use nlargest/nsmallest for finding top k
+# ❌ Don't use for random access (use array/list instead)
+# ❌ Don't modify heap array directly (breaks heap property)
 
 import heapq
 
@@ -109,6 +138,7 @@ priority, task = heapq.heappop(pq)
 print(task.name)  # "High"
 
 # Alternative: Use counter for tie-breaking with unhashable objects
+# heapq always compares tuples from left to right, so if priorities are equal, it will compare the next element. If tasks are unhashable or not directly comparable, we can use a counter to ensure uniqueness and avoid comparison issues.
 from itertools import count
 counter = count()
 pq = []
@@ -338,27 +368,3 @@ class HeapWithSet:
     def __contains__(self, item):
         return item in self.items
 
-# ============== HEAP PROPERTIES ==============
-# - Always balanced (complete binary tree)
-# - Parent index: (i-1)//2
-# - Left child: 2*i+1
-# - Right child: 2*i+2
-# - Root (min/max) always at index 0
-
-# ============== TIME COMPLEXITY ==============
-# Operation         Time
-# Push              O(log n)
-# Pop               O(log n)
-# Peek              O(1)
-# Heapify           O(n)
-# Search            O(n)
-# nlargest/nsmallest O(n log k)
-
-# ============== BEST PRACTICES ==============
-# ✅ Use heapq for priority queue
-# ✅ Negate values for max-heap
-# ✅ Use tuples for priority queue with values
-# ✅ Use heapify for bulk operations (faster than multiple pushes)
-# ✅ Use nlargest/nsmallest for finding top k
-# ❌ Don't use for random access (use array/list instead)
-# ❌ Don't modify heap array directly (breaks heap property)

@@ -316,27 +316,26 @@ sorted_str = sorted("hello")      # ['e', 'h', 'l', 'l', 'o']
 
 # Sort by absolute value
 nums = [-4, -2, 0, 2, 4]
-sorted(nums, key=lambda x: abs(x))
-# [0, -2, 2, -4, 4]
+sorted_nums = sorted(nums, key=lambda x: abs(x))
 
 # Sort strings by last character
 words = ['apple', 'pie', 'cherry']
-sorted(words, key=lambda x: x[-1])
+sorted_words = sorted(words, key=lambda x: x[-1])
 # ['apple', 'pie', 'cherry']
 
 # Sort tuples by second element
 pairs = [(1, 5), (3, 2), (2, 8)]
-sorted(pairs, key=lambda x: x[1])
+sorted_pairs = sorted(pairs, key=lambda x: x[1])
 # [(3, 2), (1, 5), (2, 8)]
 
 # Sort by multiple criteria (primary: length, secondary: alphabetical)
 words = ['apple', 'pie', 'a', 'cherry', 'an']
-sorted(words, key=lambda x: (len(x), x))
+sorted_words = sorted(words, key=lambda x: (len(x), x))
 # ['a', 'an', 'pie', 'apple', 'cherry']
 
 # Sort descending by one criterion, ascending by another
 students = [('Alice', 90), ('Bob', 85), ('Charlie', 90)]
-sorted(students, key=lambda x: (-x[1], x[0]))
+sorted_students = sorted(students, key=lambda x: (-x[1], x[0]))
 # [('Alice', 90), ('Charlie', 90), ('Bob', 85)]
 
 # Sort by custom function
@@ -344,7 +343,7 @@ def custom_key(x):
     return x % 10  # Sort by last digit
 
 nums = [23, 15, 42, 37, 11]
-sorted(nums, key=custom_key)
+sorted_nums = sorted(nums, key=custom_key)
 # [11, 42, 23, 15, 37]
 
 # Sort dictionary by key or value
@@ -355,11 +354,11 @@ sorted(d.items(), key=lambda x: x[0])
 # [('apple', 1), ('banana', 3), ('cherry', 2)]
 
 # By value
-sorted(d.items(), key=lambda x: x[1])
+sorted_items = sorted(d.items(), key=lambda x: x[1])
 # [('apple', 1), ('cherry', 2), ('banana', 3)]
 
 # Sort by value descending
-sorted(d.items(), key=lambda x: x[1], reverse=True)
+sorted_items_desc = sorted(d.items(), key=lambda x: x[1], reverse=True)
 # [('banana', 3), ('cherry', 2), ('apple', 1)]
 
 # ============== MIN / MAX ==============
@@ -381,7 +380,8 @@ import bisect
 # Find insertion point to maintain sorted order
 sorted_list = [1, 3, 3, 3, 4, 4, 7, 9]
 print(bisect.bisect_left(sorted_list, 3))  # 1 (first occurrence of 3)
-print(bisect.bisect_right(sorted_list, 3)) # 4 (after last occurrence of 3)
+print(bisect.bisect_right(sorted_list, 3)) # 4 (next index to last occurrence of 3)
 print(bisect.bisect(sorted_list, 3))       # 4 (same as bisect_right)
+print(bisect.bisect(sorted_list, 5))       # 5 insertion point for 5
 print(bisect.bisect_left(sorted_list, 5))  # 6 (insertion point for 5)
 print(bisect.bisect_right(sorted_list, 5)) # 6 (same as bisect_left for 5)

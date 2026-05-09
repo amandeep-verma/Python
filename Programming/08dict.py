@@ -192,6 +192,7 @@ testDict = defaultdict(list)  # default value is an empty list
 testDict["one"].append(1)  # Now this works fine
 print(testDict)  # defaultdict(<class 'list'>, {'one': [1]
 print(testDict["two"])  # Accessing non-existing key returns default empty list [], creates key "two" with []
+print(testDict.get ("three"))  # Accessing non-existing key with get() also returns default empty list [], but does NOT create key "three" in testDict
 print(testDict)  # defaultdict(<class 'list'>, {'one': [1]
 
 # You can achieve similar behavior using get() method with default value
@@ -199,6 +200,8 @@ standardDict = {}
 # standardDict["one"] = standardDict.get("one", []).append(1)  # COMMON MISTAKE - Since append() returns None, this sets standardDict["one"] to None
 standardDict["one"] = standardDict.get("one", []) + [1]  # Correct way to append
 standardDict["one"] = standardDict.get("one", []) + [2]  # appends 2 to existing list
+
+standardDict.get("one").append(2)
 
 # OR
 if "one" not in standardDict:
@@ -269,3 +272,10 @@ print(dict1 == dict2)             # True
 # Get with setdefault vs defaultdict
 # setdefault: use for one-time default on regular dict
 # defaultdict: use when you need default for all missing keys
+
+myDict = {"a": 1, "b": 2}
+
+newVal = myDict.values
+
+print(list(myDict.values()))
+print(type(myDict.values))

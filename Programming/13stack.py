@@ -3,8 +3,20 @@
 # Best implementation: Python list or collections.deque
 # List is sufficient for most cases (append/pop at end are O(1))
 
-# ============== STACK USING LIST (RECOMMENDED) ==============
-# List operations at the end are O(1)
+# ============== TIME COMPLEXITY ==============
+# Operation         List Stack
+# Push              O(1)
+# Pop               O(1)
+# Peek              O(1)
+# Search            O(n)
+# Size              O(1)
+
+# ============== BEST PRACTICES ==============
+# ✅ Use list for stack in most cases (simple and efficient)
+# ✅ Use deque if you need operations at both ends
+# ✅ Check if empty before pop/peek to avoid errors
+# ✅ Use monotonic stacks for next greater/smaller problems
+# ❌ Don't use pop(0) or insert(0, x) - these are O(n)
 
 stack = []
 
@@ -70,48 +82,6 @@ stack_copy = stack[:]
 stack_copy = stack.copy()
 stack_copy = list(stack)
 
-# ============== STACK CLASS IMPLEMENTATION ==============
-class Stack:
-    def __init__(self):
-        self.items = []
-    
-    def push(self, item):
-        """Add item to top of stack"""
-        self.items.append(item)
-    
-    def pop(self):
-        """Remove and return top item"""
-        if self.is_empty():
-            raise IndexError("pop from empty stack")
-        return self.items.pop()
-    
-    def peek(self):
-        """Return top item without removing"""
-        if self.is_empty():
-            raise IndexError("peek from empty stack")
-        return self.items[-1]
-    
-    def is_empty(self):
-        """Check if stack is empty"""
-        return len(self.items) == 0
-    
-    def size(self):
-        """Return number of items in stack"""
-        return len(self.items)
-    
-    def clear(self):
-        """Remove all items"""
-        self.items.clear()
-
-# Usage
-s = Stack()
-s.push(1)
-s.push(2)
-s.push(3)
-print(s.pop())      # 3
-print(s.peek())     # 2
-print(s.size())     # 2
-
 # ============== COMMON STACK PATTERNS ==============
 
 # Pattern 1: Valid Parentheses
@@ -119,6 +89,7 @@ def is_valid_parentheses(s):
     """Check if parentheses are balanced"""
     stack = []
     mapping = {')': '(', '}': '{', ']': '['}
+    openingBracket = set(mapping.values())
     
     for char in s:
         if char in mapping:
@@ -126,14 +97,15 @@ def is_valid_parentheses(s):
             if not stack or stack[-1] != mapping[char]:
                 return False
             stack.pop()
-        else:
+        elif char in openingBracket:
             # Opening bracket
             stack.append(char)
+        # Ignore all character other than brackets
     
     return len(stack) == 0
 
 # Test
-print(is_valid_parentheses("()[]{}"))    # True
+print(is_valid_parentheses("(abc)er[s]{}"))    # True
 print(is_valid_parentheses("([)]"))      # False
 
 # Pattern 2: Evaluate Reverse Polish Notation (RPN)
@@ -388,39 +360,3 @@ def backspace_compare(s, t):
 # Test
 print(backspace_compare("ab#c", "ad#c"))  # True
 print(backspace_compare("ab##", "c#d#"))  # True
-
-# ============== DFS USING STACK ==============
-def dfs_iterative(graph, start):
-    """Iterative DFS using stack"""
-    visited = set()
-    stack = [start]
-    
-    while stack:
-        node = stack.pop()
-        
-        if node in visited:
-            continue
-        
-        visited.add(node)
-        # Process node
-        print(node)
-        
-        # Add neighbors to stack (reverse order for left-to-right)
-        for neighbor in reversed(graph[node]):
-            if neighbor not in visited:
-                stack.append(neighbor)
-
-# ============== TIME COMPLEXITY ==============
-# Operation         List Stack
-# Push              O(1)
-# Pop               O(1)
-# Peek              O(1)
-# Search            O(n)
-# Size              O(1)
-
-# ============== BEST PRACTICES ==============
-# ✅ Use list for stack in most cases (simple and efficient)
-# ✅ Use deque if you need operations at both ends
-# ✅ Check if empty before pop/peek to avoid errors
-# ✅ Use monotonic stacks for next greater/smaller problems
-# ❌ Don't use pop(0) or insert(0, x) - these are O(n)
